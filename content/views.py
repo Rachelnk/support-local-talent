@@ -8,24 +8,24 @@ from django.urls import reverse
 from content.forms import AddPortflioform, UpdateProfileForm, UpdateUserForm
 
 # Create your views here.
-# def loginUser(request):
-#   if request.method == 'POST':
-#       username = request.POST['username']
-#       password = request.POST['password']
-#       user = authenticate(username=username, password=password)
+def loginUser(request):
+  if request.method == 'POST':
+      username = request.POST['username']
+      password = request.POST['password']
+      user = authenticate(username=username, password=password)
 
-#       if not User.objects.filter(username=username).exists():
-#           messages.error(request, 'Username Does Not Exist! Choose Another One.')
-#           return redirect('login')
+      if not User.objects.filter(username=username).exists():
+          messages.error(request, 'Username Does Not Exist! Choose Another One.')
+          return redirect('login')
 
-#       if user is None:
-#         messages.error(request, 'Username/Password Is Incorrect! Please Try Again')
-#         return redirect('login')
+      if user is None:
+        messages.error(request, 'Username/Password Is Incorrect! Please Try Again')
+        return redirect('login')
 
-#       if user is not None:
-#         login(request, user)
-#         return redirect(reverse('index'))
-#   return render(request, 'login.html')
+      if user is not None:
+        login(request, user)
+        return redirect(reverse('index'))
+  return render(request, 'login.html')
 
 @login_required(login_url='login')
 def logoutUser(request):
@@ -37,4 +37,78 @@ def logoutUser(request):
 def index(request):
   
   return render (request, 'index.html', {})
-# Create your views here.
+
+@login_required(login_url='login')
+def MyProfile(request, username):
+    profile = User.objects.get(username=username)
+    profile_details = Profile.objects.get(user = profile.id)
+    images = Portfolio.objects.filter(author = profile.id).all()
+    images_count = Portfolio.objects.filter(author = profile.id)
+    
+    return render(request, 'my_profile.html', {'profile':profile, 'profile_details':profile_details, 'images':images, 'images_count':images_count,})
+
+@login_required(login_url='login')
+def user_profile(request, username):
+  current_user = request.user
+  profile = User.objects.get(username=username)
+  profile_details = Profile.objects.get(user = profile.id)
+  images = Portfolio.objects.filter(author = profile.id).all()
+  images_count = Portfolio.objects.filter(author = profile.id)
+
+  return render(request, 'user_profile.html', {'profile':profile, 'profile_details':profile_details, 'images':images, 'images_count':images_count, 'current_user':current_user})
+
+@login_required(login_url='login')
+def add_portfolio(request, username):
+    form = AddPortflioform()
+    if request.method == "POST":
+        form = AddPortflioform(request.POST, request.FILES)
+        if form.is_valid():
+            portfolio = form.save(commit=False)
+            portfolio.author = request.user
+            portfolio.profile = request.user.profile
+            portfolio.save()
+            messages.success(request, 'Your Portfolio Was Added Successfully!')
+            return redirect('my_profile', username=username)
+        else:
+            messages.error(request, "Your Portfolio Wasn't Created!")
+            return redirect('add_portfolio', username=username)
+    else:
+        form = AddPortflioform()
+    return render(request, 'add_portfolio.html', {'form':form})
+
+@login_required(login_url='Login')
+def EditProfile(request, username):
+    user = User.objects.get(username=username)
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your Profile Has Been Updated Successfully!')
+            return redirect('my_profile', username=username)
+        else:
+            messages.error(request, "Your profile Wasn't Updated!")
+            return redirect('EditProfile', username=username)
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+        profile_form = UpdateProfileForm(instance=request.user.profile)
+
+    return render(request, 'edit_profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+def Search(request):
+    current_user = request.user
+    if request.method == 'POST':
+        search = request.POST['portfolioSearch']
+        users = User.objects.filter(username__icontains = search).all()
+        if not users:
+            return render(request, 'search_results.html', {'search':search, 'users':users})
+        else:
+            images = Portfolio.objects.filter(author = users[0]).all()
+            images_count = Portfolio.objects.filter(author = users[0])
+            
+            
+            return render(request, 'search_results.html', {'search':search, 'users':users, 'images':images, 'images_count':images_count, 'current_user':current_user,})
+    else:
+        return render(request, 'search_results.html')
