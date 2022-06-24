@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-# from content.models import Portfolio, Profile
+from content.models import Portfolio, Profile
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-# from content.forms import AddPortflioform, UpdateProfileForm, UpdateUserForm
+from content.forms import AddPortflioform, UpdateProfileForm, UpdateUserForm
 
 # Create your views here.
 # def loginUser(request):
