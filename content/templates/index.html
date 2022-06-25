@@ -1,36 +1,89 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
    
+<body id="banner">
+  <div class="banner">
+    <div class="cover">
+      <div class = "container banner-cont">
+        <!-- App name -->
+        <h1 class="text-center" style="font-family: 'Architects Daughter', cursive; font-size: 50px; margin-top: 120px;">Support Local Talent</h1>
+        <!-- App description -->
+        <h2 style="font-family: 'Merienda One', cursive; color:white" class="text-center">Are you a creative looking to increase your customer base or collaborate with other creatives, or you're looking for a stylist, graphic designer and you'd like to peruse through their previous work in order to make an informed decision? Then this application is for you! As a creative the application gives you a platform to showcase your work.</h2> <br>
 
-<div class="banner">
-  <div class="cover">
-    <div class = "container banner-cont">
-      <h2 style="font-family: 'Merienda', cursive;">Are you a creative looking to increase your customer base or collaborate with other creatives, or you're looking for a stylist, graphic designer and you'd like to peruse through their previous work in order to make an informed decision? Then this application is for you! As a creative the application gives you a platform to showcase your work.</h2> <br>
-     <button> <a href="{% url 'signup'%}">Get Started</a></button>
-     <!-- <a href="{% url 'login'%}">login</a> -->
-    </div>
-  </div>  
-</div>
+      <!-- Get started Sign up -->
+      <!-- Button trigger modal -->
+      <!-- <div class="card"> -->
+        <p class="text-center"> 
+          <!-- <a href="{% url 'signup'%}" > -->
+          <button type="button" class="btn btn-primary" data-target="#exampleModal" data-toggle="modal" >Get Started<button>
+          <!-- </a> -->
+        </p> 
 
-<div class="projects">
-  <div class= "text-center" >
-    <span style="background-color: rgb(32, 219, 147);">
-    {% if messages %}
-        {% for message in messages %} 
-        <div class="alert {{message.tags}} m-1" role="alert" style="font-size: medium; margin-bottom: 30px;">
-            {{message}}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        {% endfor %} 
-    {% endif %}
-  </span>
-    </div>
-  <h1 class ="text-center" style="margin: 20px; font-family: 'Alice', serif;"></h5>
+      <!-- </div> -->
+       <!-- <a href="{% url 'login'%}">login</a> -->
+      </div>
+    </div>  
 
- 
-
+    <!-- sign up modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+                  
+                    <div class="modal-content popup">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="formheader">
+                              <!-- <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#signup">Signup</a></li>
+                                <li><a data-toggle="tab" href="#login">Login</a></li>
+                                
+                              </ul> -->
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>              
+                                                   
+                                <div class="modal-body">
+                                  <!-- <div class="tab-content">
+                                    <div id="signup" class="tab-pane fade in active"> -->
+                                      <div class="panel-heading">
+                                        <h3 class="text-center" style="margin: 20px; font-family: 'Alice', serif;">Signup</h3>
+                                      </div>
+                                      <div class="signup-form">
+                                          <form action="" method="POST">
+                                              {% csrf_token %}
+                                              
+                                              <p class="text-muted text-center" style="font-family: 'Alice', serif;"></p>
+                                              <div class="panel register flex justify-content-center">
+                                                  <div class="hint-text text-center" style="font-size: small;">Already Have An Account? <a href="{% url 'login' %}" name = 'login'>Log In</a></div>
+                                              </div>
+                                              <div class="row">
+                                                  <div class="col">
+                                                      <input type="text" name="first_name" placeholder="First Name" required/>
+                                                  </div>
+                                                  <div class="col">
+                                                      <input type="text" name="last_name" placeholder="Last Name" required/>
+                                                  </div>
+                                              </div>
+                                              <input type="text" name="username" placeholder="Username" required/>
+                                              <input type="email" name="email" placeholder="Email Address" required/>
+                                              <input type="password" name="password1" placeholder="Password" required/>
+                                              <input type="password" name="password2" placeholder="Confirm Password" required/>
+                                              <button type="submit" class="btn btn-blue btn-block btn-sm">Sign Up</button>
+                                          </form>
+                                      </div>
+                                    
+                                </div>
+                            </div>
+                          </div>
+                        
+                    </div>
+                </div>
+            </div>  
+  </div>
+  
+</body>
 
 {% endblock %}

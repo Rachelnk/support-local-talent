@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from content.forms import AddPortflioform, UpdateProfileForm, UpdateUserForm
+from content.forms import AddPortfolioform, UpdateProfileForm, UpdateUserForm
 
 # Create your views here.
 def loginUser(request):
@@ -62,11 +62,11 @@ def logoutUser(request):
   return redirect('login')
 
 def index(request):
-  return render(request, index.html)
+  return render(request, 'index.html')
 
 @login_required(login_url='login')
 def portfolio (request):
-   posts = Portfolio.objects.order_by('-created').all()
+   posts = Portfolio.objects.order_by('-date_created').all()
    profiles = Profile.objects.all()
    return render(request, 'portfolio.html', {'posts':posts, 'profiles':profiles})
 
@@ -91,9 +91,9 @@ def user_profile(request, username):
 
 @login_required(login_url='login')
 def add_portfolio(request, username):
-    form = AddPortflioform()
+    form = AddPortfolioform()
     if request.method == "POST":
-        form = AddPortflioform(request.POST, request.FILES)
+        form = AddPortfolioform(request.POST, request.FILES)
         if form.is_valid():
             portfolio = form.save(commit=False)
             portfolio.author = request.user
@@ -105,7 +105,7 @@ def add_portfolio(request, username):
             messages.error(request, "Your Portfolio Wasn't Created!")
             return redirect('add_portfolio', username=username)
     else:
-        form = AddPortflioform()
+        form = AddPortfolioform()
     return render(request, 'add_portfolio.html', {'form':form})
 
 @login_required(login_url='Login')

@@ -6,13 +6,13 @@ from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 
 # Create your models here.
-portofolio_type = [('photography',('photography')),
-('stylist',('stylist')),
-('painting',('painting')),
-('graphic designer',('graphic designer')),
-('fashion designer',('fashion designer')),
-('modeling',('modeling')),
-('chemist',('chemist')),
+portofolio_type = [('Photography',('Photography')),
+('Stylist ',('Stylist')),
+('Makeup ',('Makeup')),
+('Painting',('Painting')),
+('Graphic designer',('Graphic designer')),
+('Fashion designer',('Fashion designer')),
+('Modeling',('Modeling')),
 ]
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='User', null=True)

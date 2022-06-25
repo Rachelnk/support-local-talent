@@ -2,6 +2,15 @@ from django import forms
 from django.contrib.auth.models import User
 from .models import Portfolio, Profile
 
+portofolio_type = [('Photography',('Photography')),
+('Stylist',('Stylist')),
+('Makeup ',('Makeup')),
+('Painting',('Painting')),
+('Graphic designer',('Graphic designer')),
+('Fashion designer',('Fashion designer')),
+('Modeling',('Modeling')),
+]
+
 class UpdateUserForm(forms.ModelForm):
     first_name = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -21,11 +30,13 @@ class UpdateProfileForm(forms.ModelForm):
         model = Profile
         fields = ['profile_image', 'bio']
 
-class AddPortflioform(forms.ModelForm):
+class AddPortfolioform(forms.ModelForm):
     image = forms.ImageField(required=True, widget=forms.FileInput(attrs={'class': 'form-control-file'}))
     title = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title'}))
-    caption = forms.CharField(max_length=2200, required=True, widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Caption'}))
+    description = forms.CharField(max_length=2200, required=True, widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Description'}))
+    portofolio_type = forms.ChoiceField(choices=portofolio_type , required=True, widget=forms.Select(attrs={'class': 'form-control mb-4', 'placeholder':'Portfolio Type'}))
+    
 
     class Meta:
         model = Portfolio
-        fields = ['image', 'title', 'caption']
+        fields = ['image', 'title', 'description','portofolio_type']
