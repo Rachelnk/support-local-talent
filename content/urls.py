@@ -6,6 +6,7 @@ urlpatterns = [
   path('', views.index, name='index'),
   path('signup', views.signup, name='signup'),
   path('logout/', views.logoutUser, name='logout'),
+  re_path(r'^portfolio/(?P<username>\w{0,50})/$', views.portfolio, name = 'portfolio'),
   re_path(r'^profile/(?P<username>\w{0,50})/$', views.MyProfile, name = 'my_profile'),
   re_path(r'^user/(?P<username>\w{0,50})/$', views.user_profile, name="user_profile"),
   re_path(r'^profile/(?P<username>\w{0,50})/edit/$', views.EditProfile, name="EditProfile"),

@@ -24,8 +24,36 @@ def loginUser(request):
 
       if user is not None:
         login(request, user)
-        return redirect(reverse('index'))
+        return redirect(reverse('portfolio'))
   return render(request, 'login.html')
+
+def signup(request):
+  if request.method == 'POST':
+        context = {'has_error': False}
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        username = request.POST['username']
+        email = request.POST['email']
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+
+        if password1 != password2:
+            messages.error(request, 'Passwords Do Not Match! Try Again')
+            return redirect('signup')
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username Already Exists! Choose Another One')
+            return redirect('signup')
+
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'Email Address Already Exists! Choose Another One')
+            return redirect('signup')
+
+        user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email)
+        user.set_password(password1)
+        user.save()        
+  
+  return render(request, 'signup.html')
 
 @login_required(login_url='login')
 def logoutUser(request):
@@ -33,10 +61,14 @@ def logoutUser(request):
   messages.success(request, 'Succesfully Logged Out')
   return redirect('login')
 
-
 def index(request):
-  
-  return render (request, 'index.html', {})
+  return render(request, index.html)
+
+@login_required(login_url='login')
+def portfolio (request):
+   posts = Portfolio.objects.order_by('-created').all()
+   profiles = Profile.objects.all()
+   return render(request, 'portfolio.html', {'posts':posts, 'profiles':profiles})
 
 @login_required(login_url='login')
 def MyProfile(request, username):

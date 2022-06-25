@@ -1,1 +1,36 @@
-<h1>Hellow</h1>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+   
+
+<div class="banner">
+  <div class="cover">
+    <div class = "container banner-cont">
+      <h2 style="font-family: 'Merienda', cursive;">Are you a creative looking to increase your customer base or collaborate with other creatives, or you're looking for a stylist, graphic designer and you'd like to peruse through their previous work in order to make an informed decision? Then this application is for you! As a creative the application gives you a platform to showcase your work.</h2> <br>
+     <button> <a href="{% url 'signup'%}">Get Started</a></button>
+     <!-- <a href="{% url 'login'%}">login</a> -->
+    </div>
+  </div>  
+</div>
+
+<div class="projects">
+  <div class= "text-center" >
+    <span style="background-color: rgb(32, 219, 147);">
+    {% if messages %}
+        {% for message in messages %} 
+        <div class="alert {{message.tags}} m-1" role="alert" style="font-size: medium; margin-bottom: 30px;">
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %} 
+    {% endif %}
+  </span>
+    </div>
+  <h1 class ="text-center" style="margin: 20px; font-family: 'Alice', serif;"></h5>
+
+ 
+
+
+{% endblock %}

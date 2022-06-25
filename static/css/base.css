@@ -1,0 +1,11 @@
+#home-body {
+  background-image: url(/static/img/banner1.avif);
+  background-repeat:no-repeat;
+  background-attachment: fixed;
+  background-size:cover;
+  background-position: center;
+  height: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+}
