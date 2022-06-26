@@ -74,8 +74,8 @@ def portfolio (request):
 def MyProfile(request, username):
     profile = User.objects.get(username=username)
     profile_details = Profile.objects.get(user = profile.id)
-    images = Portfolio.objects.filter(author = profile.id).all()
-    images_count = Portfolio.objects.filter(author = profile.id)
+    images = Portfolio.objects.filter(user = profile.id).all()
+    images_count = Portfolio.objects.filter(user = profile.id)
     
     return render(request, 'my_profile.html', {'profile':profile, 'profile_details':profile_details, 'images':images, 'images_count':images_count,})
 
@@ -84,19 +84,21 @@ def user_profile(request, username):
   current_user = request.user
   profile = User.objects.get(username=username)
   profile_details = Profile.objects.get(user = profile.id)
-  images = Portfolio.objects.filter(author = profile.id).all()
-  images_count = Portfolio.objects.filter(author = profile.id)
+  images = Portfolio.objects.filter(user = profile.id).all()
+  images_count = Portfolio.objects.filter(user = profile.id)
 
   return render(request, 'user_profile.html', {'profile':profile, 'profile_details':profile_details, 'images':images, 'images_count':images_count, 'current_user':current_user})
 
 @login_required(login_url='login')
 def add_portfolio(request, username):
+    profile = User.objects.get(username=username)
+    profile_details = Profile.objects.get(user=profile.id)
     form = AddPortfolioform()
-    if request.method == "POST":
+    if request.method == 'POST':
         form = AddPortfolioform(request.POST, request.FILES)
         if form.is_valid():
             portfolio = form.save(commit=False)
-            portfolio.author = request.user
+            portfolio.user = request.user
             portfolio.profile = request.user.profile
             portfolio.save()
             messages.success(request, 'Your Portfolio Was Added Successfully!')
@@ -106,7 +108,7 @@ def add_portfolio(request, username):
             return redirect('add_portfolio', username=username)
     else:
         form = AddPortfolioform()
-    return render(request, 'add_portfolio.html', {'form':form})
+    return render(request, 'add_portfolio.html', {'form':form, 'profile_details':profile_details})
 
 @login_required(login_url='Login')
 def EditProfile(request, username):
@@ -137,8 +139,8 @@ def Search(request):
         if not users:
             return render(request, 'search_results.html', {'search':search, 'users':users})
         else:
-            images = Portfolio.objects.filter(author = users[0]).all()
-            images_count = Portfolio.objects.filter(author = users[0])
+            images = Portfolio.objects.filter(user = users[0]).all()
+            images_count = Portfolio.objects.filter(user = users[0])
             
             
             return render(request, 'search_results.html', {'search':search, 'users':users, 'images':images, 'images_count':images_count, 'current_user':current_user,})
