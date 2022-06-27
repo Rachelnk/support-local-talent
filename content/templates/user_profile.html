@@ -2,62 +2,42 @@
 {% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="/static/css/profile.css">
     <div class="container-fluid">
         {% include 'navbar.html' %}
     </div>
 
     <div class="container-fluid notification" id = 'center-tag'>
-       
-            {% if messages %}
-                {% for message in messages %} 
-                <div class="alert {{message.tags}} m-1" role="alert" style="font-size: medium;">
-                    {{message}}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %} 
-            {% endif %}
-       
+        <h1 style="font-family: 'Merienda One', cursive" class="text-center"> Hello, I'm {{ profile.first_name }} {{ profile.last_name }}</h1>
+        <!-- Tab links -->
+    <div class="tab" style="margin-top:20px ; margin-bottom: 20px;">
+        <button class="tablinks text-center" onclick="openSection(event, 'Portfolio')" id="defaultOpen"><span style="font-size:20px ;">Portfolio</span> </button>
+        <button class="tablinks text-center" onclick="openSection(event, 'Bio')"><span style="font-size:20px ;">Bio</span> </button>  
+         
+              
     </div>
 
         <div class="container">
     
-            <div class="profile">
+            <div class="profile tabcontent" id="Bio">
     
                 <div class="profile-image">
                     {% if profile_details.profile_pic %}
-                        <img class="rounded-circle" src="{{ profile_details.profile_pic.url }}" alt="" height="180" width="180">
+                        <img class="rounded-circle" src="{{ profile_details.profile_pic.url }}" alt="" height="300" width="300">
                     {% else %}
-                        <img src="https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg" alt="" height="160" width="160">
+                        <img src="https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg" alt="" height="300" width="300">
                     {% endif %}
                 </div>
     
                 <div class="profile-user-settings">
     
                     <h1 class="profile-user-name">{{ profile.username }}</h1>
-                  
-    
+                     
                 </div>
-    
-                <div class="profile-stats">
-    
-                    <ul style="padding-left: 0px;">
-                        <li>
-                            {% if images_count|length == 0 %}
-                                <span class="profile-stat-count">{{ images_count|length }}</span> posts
-                            {% elif images_count|length == 1 %}
-                                <span class="profile-stat-count">{{ images_count|length }}</span> portfolio
-                            {% else %}
-                                <span class="profile-stat-count">{{ images_count|length }}</span> portoflio items
-                            {% endif %}
-                        </li>
-                        
-                    </ul>
-    
-                </div>
-    
+                
+              
                 <div class="profile-bio">
+                    <br>
     
                     <p style="font-size: medium;"><b>{{ profile.first_name }} {{ profile.last_name }}</b><br>
                         {% if profile_details.bio %}
@@ -78,7 +58,7 @@
     
         <div class="container">
     
-            <div class="gallery">
+            <div class="gallery tabcontent" id="Portfolio">
 
                 {% if images %}
         
@@ -89,7 +69,7 @@
                                     <div class="gallery-item" tabindex="0">
                                         <div class="post__medias">
 
-                                            <img src="{{ image.image.url }}" class="gallery-image" alt="">
+                                            <img src="{{ image.image.url }}" class="gallery-image" alt="" height="300" width="300">
 
                                         </div>
                         
@@ -97,12 +77,8 @@
                         
                                             <ul>
                                                 <li class="gallery-item-likes"><span class="visually-hidden"></span> {{ image.title  }}</li>
-                                            </ul>
-            
-                                            <!-- <ul>
-                                                <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> 56</li>
-                                                <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
-                                            </ul> -->
+                                            </ul>          
+                                        
                         
                                         </div>
                         
@@ -183,3 +159,32 @@
         </div>
         <!-- End of container -->
         {%endblock%}
+        {% block scripts %}
+<script>
+  function openSection(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;    
+  
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+  
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+  
+    // Show the current tab, and add an "active" class to the link that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+  // Get the element with id="defaultOpen" and click on it
+  document.getElementById("defaultOpen").click();
+  </script>
+
+
+
+{% endblock %}

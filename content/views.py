@@ -6,6 +6,9 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from content.forms import AddPortfolioform, UpdateProfileForm, UpdateUserForm
+from django.contrib.auth.forms import PasswordChangeForm
+
+from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
 def loginUser(request):
@@ -147,21 +150,20 @@ def Search(request):
     else:
         return render(request, 'search_results.html')
     
-# @login_required(login_url='login')
-def Settings(request):
-    # profile = User.objects.get(username=username)
-    # username = User.objects.get(username=username)
-    # if request.method == "POST":
-    #     form = PasswordChangeForm(data=request.POST, user=request.user)
-    #     if form.is_valid():
-    #         form.save()
-    #         update_session_auth_hash(request, form.user)
-    #         messages.success(request, 'Your Password Has Been Updated Successfully!')
-    #         return redirect("my_profile", username=username)
-    #     else:
-    #         messages.error(request, "Your Password Wasn't Updated!")
-    #         return redirect("Settings", username=username)
-    # else:
-    #     form = PasswordChangeForm(data=request.POST, user=request.user)
-    # {'form': form}
-    return render(request, "settings.html")
+@login_required(login_url='login')
+def Settings(request, username):    
+    username = User.objects.get(username=username)
+    if request.method == "POST":
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            messages.success(request, 'Your Password Has Been Updated Successfully!')
+            return redirect("my_profile", username=username)
+        else:
+            messages.error(request, "Your Password Wasn't Updated!")
+            return redirect("Settings", username=username)
+    else:
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+    
+    return render(request, "settings.html",{'form': form})

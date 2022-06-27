@@ -1,3 +1,4 @@
+from logging import PlaceHolder
 from django import forms 
 from django.contrib.auth.models import User
 from content.models import Portfolio, Profile
@@ -24,7 +25,7 @@ class UpdateUserForm(forms.ModelForm):
 
 class UpdateProfileForm(forms.ModelForm):
     profile_image = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'form-control-file'}))
-    bio = forms.CharField(required=False, widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
+    bio = forms.CharField(required=False, widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5,'placeholder': 'Your Bio'}))
 
     class Meta:
         model = Profile

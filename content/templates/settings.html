@@ -2,7 +2,7 @@
 {% block content%}
 <link rel="stylesheet" href="/static/css/profile.css">
 <div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'London')">London</button>
+  <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">London</button>
   <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
   <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
 </div>
@@ -28,7 +28,7 @@
 <script>
   function openCity(evt, cityName) {
     // Declare all variables
-    var i, tabcontent, tablinks;
+    var i, tabcontent, tablinks;    
   
     // Get all elements with class="tabcontent" and hide them
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -46,7 +46,8 @@
     document.getElementById(cityName).style.display = "block";
     evt.currentTarget.className += " active";
   }
-  
+  // Get the element with id="defaultOpen" and click on it
+  document.getElementById("defaultOpen").click();
   </script>
 
 

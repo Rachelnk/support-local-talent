@@ -61,6 +61,11 @@ class Portfolio(models.Model):
     @classmethod
     def all_portfolio(cls):
         return cls.objects.all()
+
+    # @classmethod
+    # def filter_portfolio_types(cls, portfolio_type):
+    #     portfolio_types = Portfolio.objects.filter(portfolio_type__icontains = portfolio_type)
+    #     return portfolio_types
     
     class Meta:
         verbose_name_plural = 'Portfolios'

@@ -2,28 +2,25 @@
 {% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="/static/css/profile.css">
     <div class="container-fluid">
         {% include 'navbar.html' %}
     </div>
 
-    <div class="container-fluid notification" id="center-tag">
-       
-            {% if messages %}
-                {% for message in messages %} 
-                <div class="alert {{message.tags}} m-1" role="alert" style="font-size: medium;">
-                    {{message}}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endfor %} 
-            {% endif %}
-      
+    <div class="container-fluid notification" id = 'center-tag'>
+        <h1 style="font-family: 'Merienda One', cursive" class="text-center"> Hello, I'm {{ profile.first_name }} {{ profile.last_name }}</h1>
+        <!-- Tab links -->
+        <div class="tab" style="margin-top:20px ; margin-bottom: 20px;">
+            <button class="tablinks text-center" onclick="openSection(event, 'Portfolio')" id="defaultOpen"><span style="font-size:20px ;">Portfolio</span> </button>
+            <button class="tablinks text-center" onclick="openSection(event, 'Bio')"><span style="font-size:20px ;">Bio</span> </button>  
+            
+                
+        </div>
     </div>
 
-        <div class="container">
-    
-            <div class="profile">
+        <div class="container">   
+            
+            <div class="profile tabcontent" id="Bio">
     
                 <div class="profile-image">
                     {% if profile_details.profile_pic %}
@@ -84,7 +81,7 @@
     
         <div class="container">
     
-            <div class="gallery">
+            <div class="gallery tabcontent" id="Portfolio">>
 
                 {% if images %}
         
@@ -188,3 +185,34 @@
     
         </div>
         <!-- End of container -->
+        {%endblock%}
+
+        {% block scripts %}
+<script>
+  function openSection(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;    
+  
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+  
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+  
+    // Show the current tab, and add an "active" class to the link that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+  // Get the element with id="defaultOpen" and click on it
+  document.getElementById("defaultOpen").click();
+  </script>
+
+
+
+{% endblock %}
