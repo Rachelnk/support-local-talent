@@ -7,20 +7,27 @@
     </div>
 
     <div class="container-fluid notification">
-        <center>
-            <!--  -->
-        </center>
+      {% if messages %}
+      {% for message in messages %} 
+      <div class="alert {{message.tags}} m-1 text-center" role="alert" style="font-size: medium;">
+          {{message}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      {% endfor %} 
+  {% endif %}
     </div>
 
     <div class="edit-form">
-        <form action="{% url 'add_portfolio' user.username %}" method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.image }}
             {{ form.title }}
-            {{ form.portfolio_type}}
+            {{ form.portfolio_type }}
             {{ form.description }}
             
-            <button type="submit" class="btn btn-blue btn-block btn-sm">Create</button>
+            <button type="submit" class="btn btn-blue btn-block btn-sm" value="Submit">Create</button>
         </form>
     </div>
 

@@ -65,7 +65,7 @@ def index(request):
   return render(request, 'index.html')
 
 @login_required(login_url='login')
-def portfolio (request):
+def portfolio(request):
    posts = Portfolio.objects.order_by('-date_created').all()
    profiles = Profile.objects.all()
    return render(request, 'portfolio.html', {'posts':posts, 'profiles':profiles})
@@ -80,7 +80,7 @@ def MyProfile(request, username):
     return render(request, 'my_profile.html', {'profile':profile, 'profile_details':profile_details, 'images':images, 'images_count':images_count,})
 
 @login_required(login_url='login')
-def user_profile(request, username):
+def UserProfile(request, username):
   current_user = request.user
   profile = User.objects.get(username=username)
   profile_details = Profile.objects.get(user = profile.id)
@@ -90,9 +90,9 @@ def user_profile(request, username):
   return render(request, 'user_profile.html', {'profile':profile, 'profile_details':profile_details, 'images':images, 'images_count':images_count, 'current_user':current_user})
 
 @login_required(login_url='login')
-def add_portfolio(request, username):
-    profile = User.objects.get(username=username)
-    profile_details = Profile.objects.get(user=profile.id)
+def add_portfolio(request):
+    # profile = User.objects.get(username=username)
+    # profile_details = Profile.objects.get(user=profile.id)
     form = AddPortfolioform()
     if request.method == 'POST':
         form = AddPortfolioform(request.POST, request.FILES)
@@ -102,13 +102,13 @@ def add_portfolio(request, username):
             portfolio.profile = request.user.profile
             portfolio.save()
             messages.success(request, 'Your Portfolio Was Added Successfully!')
-            return redirect('my_profile', username=username)
+            return redirect('add_portfolio')
         else:
             messages.error(request, "Your Portfolio Wasn't Created!")
-            return redirect('add_portfolio', username=username)
+            return redirect('add_portfolio')
     else:
         form = AddPortfolioform()
-    return render(request, 'add_portfolio.html', {'form':form, 'profile_details':profile_details})
+    return render(request, 'add_portfolio.html', {'form':form, })
 
 @login_required(login_url='Login')
 def EditProfile(request, username):
@@ -146,3 +146,22 @@ def Search(request):
             return render(request, 'search_results.html', {'search':search, 'users':users, 'images':images, 'images_count':images_count, 'current_user':current_user,})
     else:
         return render(request, 'search_results.html')
+    
+# @login_required(login_url='login')
+def Settings(request):
+    # profile = User.objects.get(username=username)
+    # username = User.objects.get(username=username)
+    # if request.method == "POST":
+    #     form = PasswordChangeForm(data=request.POST, user=request.user)
+    #     if form.is_valid():
+    #         form.save()
+    #         update_session_auth_hash(request, form.user)
+    #         messages.success(request, 'Your Password Has Been Updated Successfully!')
+    #         return redirect("my_profile", username=username)
+    #     else:
+    #         messages.error(request, "Your Password Wasn't Updated!")
+    #         return redirect("Settings", username=username)
+    # else:
+    #     form = PasswordChangeForm(data=request.POST, user=request.user)
+    # {'form': form}
+    return render(request, "settings.html")

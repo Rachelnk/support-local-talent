@@ -6,7 +6,7 @@
         {% include 'navbar.html' %}
     </div>
 
-    <div class="container-fluid notification" id="center-tag">
+    <div class="container-fluid notification" id = 'center-tag'>
        
             {% if messages %}
                 {% for message in messages %} 
@@ -18,7 +18,7 @@
                 </div>
                 {% endfor %} 
             {% endif %}
-      
+       
     </div>
 
         <div class="container">
@@ -36,13 +36,7 @@
                 <div class="profile-user-settings">
     
                     <h1 class="profile-user-name">{{ profile.username }}</h1>
-    
-                    <a href="{% url 'EditProfile' user.username %}" name='EditProfile'>
-                        <button class="btn profile-edit-btn">Edit Profile</button>
-                    </a>
-                    <a href="{% url 'Settings' user.username %}" name='Settings'>
-                        <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
-                    </a>
+                  
     
                 </div>
     
@@ -51,14 +45,14 @@
                     <ul style="padding-left: 0px;">
                         <li>
                             {% if images_count|length == 0 %}
-                                <span class="profile-stat-count">{{ images_count|length }}</span> Portfolio Items
+                                <span class="profile-stat-count">{{ images_count|length }}</span> posts
                             {% elif images_count|length == 1 %}
-                                <span class="profile-stat-count">{{ images_count|length }}</span> Portfolio Item
+                                <span class="profile-stat-count">{{ images_count|length }}</span> portfolio
                             {% else %}
-                                <span class="profile-stat-count">{{ images_count|length }}</span> Portfolio Items
+                                <span class="profile-stat-count">{{ images_count|length }}</span> portoflio items
                             {% endif %}
                         </li>
-                      
+                        
                     </ul>
     
                 </div>
@@ -136,20 +130,20 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="d-flex flex-row user-info">
-                                            <a href="{% url 'my_profile' user.username %}">
+                                            <a href="{% url 'user_profile' user.username %}">
                                                 <img class="rounded-circle" src="{{ user.profile.profile_pic.url }}" height="50" width="50">
                                             </a>
                                             <div class="d-flex flex-column justify-content-start ml-2">
-                                                <a href="{% url 'my_profile' user.username %}">
-                                                    <span class="d-block font-weight-bold name">{{ image.author.username }}</span>
+                                                <a href="{% url 'user_profile' user.username %}">
+                                                    <span class="d-block font-weight-bold name">{{ image.user.username }}</span>
                                                 </a>
-                                                <span class="date text-black-50" style="font-size: 13px;">{{ image.author.first_name }} {{ image.author.last_name }}</span>
+                                                <span class="date text-black-50" style="font-size: 13px;">{{ image.user.first_name }} {{ image.user.last_name }}</span>
                                             </div>
                                         </div>
                                         <br>
                                         <div class="image__description">
                                             <span>
-                                                <a class="image__name--underline" href="{% url 'my_profile' user.username %}" ><b>{{ image.author.username }}</b></a>
+                                                <a class="image__name--underline" href="{% url 'user_profile' user.username %}" ><b>{{ image.user.username }}</b></a>
                                                 {{ image.description }}
                                             </span>
                                         </div>
@@ -174,11 +168,11 @@
 
                 <div class="col-sm-12" style="margin-top: 15px;" id="center-tag">
                   
-                        <a href="{% url 'add_post' %}" name='add_portfolio'>
+                        <a href="{% url 'add_portfolio' %}" name='add_portfolio'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="108" height="108" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);"><path d="M4 5h13v7h2V5c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h8v-2H4V5z"></path><path d="m8 11-3 4h11l-4-6-3 4z"></path><path d="M19 14h-2v3h-3v2h3v3h2v-3h3v-2h-3z"></path></svg>
                             <h3 class="text-dark py-3"><b>Upload Your First Portfolio Item</b></h3>
                         </a>
-                   
+                    
                 </div>
 
                 {% endif %}
@@ -188,3 +182,4 @@
     
         </div>
         <!-- End of container -->
+        {%endblock%}

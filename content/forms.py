@@ -38,4 +38,4 @@ class AddPortfolioform(forms.ModelForm):
 
     class Meta:
         model = Portfolio
-        fields = ['image', 'title', 'description','portfolio_type',]
+        fields = ['image', 'title', 'description','portfolio_type']

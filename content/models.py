@@ -13,7 +13,7 @@ portfolio_type = [('Photography',('Photography')),
 ]
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='User', null=True)
-    username = models.CharField(max_length=60)
+    username = models.CharField(max_length=60, verbose_name='Username', null=True)
     profile_pic = CloudinaryField('image')
     bio = models.TextField(max_length = 150, null = True, verbose_name= 'Bio')
     date_created = models.DateTimeField(auto_now_add=True, verbose_name='Date Created', null= True)
@@ -36,7 +36,7 @@ class Profile(models.Model):
         verbose_name_plural = 'Profiles'
 
 class Portfolio(models.Model):
-    image = CloudinaryField('image')
+    image = CloudinaryField('image', null=True)
     title = models.CharField(max_length=20, verbose_name='Title', null=True)
     description = models.CharField(max_length=500, verbose_name='Description', null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='User', null = True)

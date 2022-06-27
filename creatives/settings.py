@@ -130,6 +130,12 @@ STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static')
 ]
+cloudinary.config( 
+  cloud_name = 'kiaries-gallery',
+  api_key = '343145548373335', 
+  api_secret = 'oNEicoCy_M9UqMwBjoRC1fyPAuE',
+  secure = True
+)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
